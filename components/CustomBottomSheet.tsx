@@ -1,12 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  Button,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { forwardRef, useMemo } from 'react';
 import BottomSheet, { useBottomSheet, BottomSheetView } from '@gorhom/bottom-sheet';
 import ChatView from './ChatView';
@@ -16,12 +8,6 @@ export type Ref = BottomSheet;
 interface Props {
   channelId: string;
 }
-
-const CloseBtn = () => {
-  const { close } = useBottomSheet();
-
-  return <Button title="Close" onPress={() => close()} />;
-};
 
 const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
   const snapPoints = useMemo(() => ['15%', '100%'], []);

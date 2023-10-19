@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,6 @@ import {
   DefaultStreamChatGenerics,
   MessageInput,
   MessageList,
-  OverlayProvider,
 } from 'stream-chat-expo';
 import { Channel as ChannelType } from 'stream-chat';
 
@@ -51,7 +50,6 @@ const ChatView = ({ channelId }: Props) => {
         <Chat client={chatClient}>
           <Channel channel={channel}>
             <MessageList />
-
             <MessageInput />
           </Channel>
         </Chat>

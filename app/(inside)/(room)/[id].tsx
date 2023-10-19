@@ -7,9 +7,10 @@ import {
   Call,
   CallContent,
   StreamCall,
+  StreamVideoEvent,
   useStreamVideoClient,
 } from '@stream-io/video-react-native-sdk';
-import ChatView from '../../../components/ChatView';
+import Toast from 'react-native-toast-message';
 
 import CustomCallControls from '../../../components/CustomCallControls';
 import CustomTopView from '../../../components/CustomTopView';
@@ -35,6 +36,37 @@ const Page = () => {
         </TouchableOpacity>
       ),
     });
+
+    const unsubscribe = client!.on('all', (event: StreamVideoEvent) => {
+      console.log('Event: ', event.type);
+      console.log(event);
+
+      if (event.type === 'call.reaction_new') {
+        console.log(`New reaction: ${event.reaction}`);
+      }
+
+      if (event.type === 'call.session_participant_joined') {
+        console.log(`New user joined the call: ${event.participant}`);
+        const user = event.participant.user.name;
+        Toast.show({
+          text1: 'User joined',
+          text2: `Say hello to ${user} 👋`,
+        });
+      }
+
+      if (event.type === 'call.session_participant_left') {
+        console.log(`Someone left the call: ${event.participant}`);
+        const user = event.participant.user.name;
+        Toast.show({
+          text1: 'User left',
+          text2: `Say goodbye to ${user} 👋`,
+        });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // Join the call

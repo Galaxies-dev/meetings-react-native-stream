@@ -5,6 +5,7 @@ import { StreamVideo, StreamVideoClient, User } from '@stream-io/video-react-nat
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { OverlayProvider } from 'stream-chat-expo';
+import Toast from 'react-native-toast-message';
 
 const STREAM_KEY = process.env.EXPO_PUBLIC_STREAM_ACCESS_KEY;
 
@@ -61,6 +62,7 @@ const InitialLayout = () => {
         <StreamVideo client={client}>
           <OverlayProvider>
             <Slot />
+            <Toast />
           </OverlayProvider>
         </StreamVideo>
       )}
