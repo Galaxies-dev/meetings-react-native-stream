@@ -16,7 +16,9 @@ const CustomTopView = () => {
 
 const styles = StyleSheet.create({
   topContainer: {
-    width: '100%',
+    width: '75%',
+    position: 'absolute',
+    left: '25%',
     height: 50,
     backgroundColor: '#0333c17c',
     justifyContent: 'center',
@@ -24,6 +26,8 @@ const styles = StyleSheet.create({
   },
   topText: {
     color: 'white',
+    fontSize: 14,
+    padding: 10,
   },
 });
 

@@ -46,23 +46,21 @@ const ChatView = ({ channelId }: Props) => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <OverlayProvider>
-        {chatClient && channel ? (
-          <Chat client={chatClient}>
-            <Channel channel={channel}>
-              <MessageList />
+    <>
+      {chatClient && channel ? (
+        <Chat client={chatClient}>
+          <Channel channel={channel}>
+            <MessageList />
 
-              <MessageInput />
-            </Channel>
-          </Chat>
-        ) : (
-          <View>
-            <Text>Loading Chat...</Text>
-          </View>
-        )}
-      </OverlayProvider>
-    </SafeAreaView>
+            <MessageInput />
+          </Channel>
+        </Chat>
+      ) : (
+        <View>
+          <Text>Loading Chat...</Text>
+        </View>
+      )}
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import { Slot, Stack, useRouter, useSegments } from 'expo-router';
 import { StreamVideo, StreamVideoClient, User } from '@stream-io/video-react-native-sdk';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { OverlayProvider } from 'stream-chat-expo';
 
 const STREAM_KEY = process.env.EXPO_PUBLIC_STREAM_ACCESS_KEY;
 
@@ -58,7 +59,9 @@ const InitialLayout = () => {
       )}
       {client && (
         <StreamVideo client={client}>
-          <Slot />
+          <OverlayProvider>
+            <Slot />
+          </OverlayProvider>
         </StreamVideo>
       )}
     </>

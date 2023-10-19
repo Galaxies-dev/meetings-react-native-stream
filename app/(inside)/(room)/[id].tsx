@@ -15,6 +15,7 @@ import CustomCallControls from '../../../components/CustomCallControls';
 import CustomTopView from '../../../components/CustomTopView';
 import { reactions } from '../../../components/CustomCallControls';
 import { Ionicons } from '@expo/vector-icons';
+import CustomBottomSheet from '../../../components/CustomBottomSheet';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
@@ -69,20 +70,19 @@ const Page = () => {
 
       <StreamCall call={call}>
         <View style={styles.container}>
-          <View style={styles.videoContainer}>
-            {/* <CallContent
-              onHangupCallHandler={goToHomeScreen}
-              CallControls={CustomCallControls}
-              CallTopView={CustomTopView}
-              supportedReactions={reactions}
-              layout="grid"
-            /> */}
-          </View>
-
-          <View style={styles.chatContainer}>
-            <ChatView channelId={id} />
-          </View>
+          <CallContent
+            onHangupCallHandler={goToHomeScreen}
+            CallControls={CustomCallControls}
+            CallTopView={CustomTopView}
+            supportedReactions={reactions}
+            layout="grid"
+          />
         </View>
+
+        {/* <View style={styles.videoContainer}>
+          <View style={styles.chatContainer}><ChatView channelId={id} /></View>
+        </View> */}
+        <CustomBottomSheet channelId={id} />
       </StreamCall>
     </View>
   );
@@ -91,7 +91,7 @@ const Page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: WIDTH > HEIGHT ? 'row' : 'column',
+    // flexDirection: WIDTH > HEIGHT ? 'row' : 'column',
   },
   videoContainer: {
     flex: 1,

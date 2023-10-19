@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
   customCallControlsContainer: {
     position: 'absolute',
     right: 0,
-    bottom: 40,
+    top: 80,
     gap: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: '#0333c17c',
