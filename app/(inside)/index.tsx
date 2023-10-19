@@ -7,25 +7,65 @@ import {
   ImageBackground,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import { rooms } from '../../assets/data/rooms';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 import { Ionicons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
+import { useStreamVideoClient } from '@stream-io/video-react-native-sdk';
 
 const Page = () => {
-  const onStartMeeting = () => {
+  const router = useRouter();
+  const client = useStreamVideoClient();
+
+  const onStartMeeting = async () => {
     console.log('Start Meeting');
+    const randomId = Math.floor(Math.random() * 1000000000).toString();
+    router.push(`/(inside)/(room)/${randomId}`);
+    // console.log('🚀 ~ file: index.tsx:28 ~ onStartMeeting ~ randomId:', randomId);
+
+    // try {
+    //   const call = await client!.call('default', randomId);
+    //   console.log('Call created: ', call);
+    // } catch (e) {
+    //   console.log('Error creating call: ', e);
+    // }
+
+    // router.push(`/(inside)/(room)/${randomId}`);
+  };
+
+  const onJoinMeeting = () => {
+    Alert.prompt(
+      'Join',
+      'Please enter your Call ID:',
+      (id) => {
+        console.log('Joining call: ', id);
+        router.push(`/(inside)/(room)/${id}`);
+      },
+      'plain-text'
+    );
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 20 }}>
-      <TouchableOpacity onPress={onStartMeeting} style={styles.button}>
-        <Ionicons name="videocam" size={24} color="white" />
-        <Text style={styles.buttonText}>Start new Meeting</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableOpacity onPress={onStartMeeting} style={styles.button}>
+          <Ionicons name="videocam-outline" size={24} />
+          <Text style={styles.buttonText}>Start new Meeting</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onJoinMeeting} style={styles.button}>
+          <Ionicons name="business-outline" size={24} />
+          <Text style={styles.buttonText}>Join Meeting by ID</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.divider}>
         <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: '#000' }} />
         <Text style={{ fontSize: 18 }}>or join public room</Text>
@@ -70,14 +110,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#5b83fe',
+    backgroundColor: Colors.secondary,
     margin: 20,
     padding: 30,
     borderRadius: 10,
   },
   buttonText: {
     fontSize: 20,
-    color: '#fff',
     fontWeight: 'bold',
     marginRight: 10,
   },

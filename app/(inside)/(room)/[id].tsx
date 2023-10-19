@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { View, StyleSheet, Dimensions, TouchableOpacity, Share } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import {
@@ -10,82 +10,80 @@ import {
   useStreamVideoClient,
 } from '@stream-io/video-react-native-sdk';
 import ChatView from '../../../components/ChatView';
-import Colors from '../../../constants/Colors';
+
 import CustomCallControls from '../../../components/CustomCallControls';
 import CustomTopView from '../../../components/CustomTopView';
 import { reactions } from '../../../components/CustomCallControls';
+import { Ionicons } from '@expo/vector-icons';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 const Page = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const navigation = useNavigation();
 
   const [call, setCall] = useState<Call | null>(null);
   const client = useStreamVideoClient();
 
-  // Join the call for the workout
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={shareMeeting}>
+          <Ionicons name="share-outline" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
+  // Join the call
   useEffect(() => {
     if (!client || call) return;
-    console.log('Joining call');
+
     const joinCall = async () => {
+      console.log('Joining call: ', id);
+
       const call = client!.call('default', id);
-      console.log('Call created: ');
-
       await call.join({ create: true });
-      console.log('Call joined: ');
-
       setCall(call);
     };
 
     joinCall();
   }, [call]);
 
-  // Clean up the call when we leave the page
   const goToHomeScreen = async () => {
-    // leaveCall();
     router.back();
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        console.log('UNFOCUS');
-        leaveCall();
-      };
-    }, [])
-  );
-
-  const leaveCall = async () => {
-    try {
-      await call?.leave();
-    } catch (e) {
-      console.log('Error leaving call here');
-    }
+  const shareMeeting = async () => {
+    Share.share({
+      message: `Join my meeting: myapp://(inside)/(room)/${id}`,
+    });
   };
+
+  if (!call) return null;
 
   return (
     <View style={{ flex: 1 }}>
       <Spinner visible={!call} />
 
-      {call && (
-        <StreamCall call={call}>
-          <View style={styles.container}>
-            <View style={styles.videoContainer}>
-              <CallContent
-                onHangupCallHandler={goToHomeScreen}
-                landscape={true}
-                CallControls={CustomCallControls}
-                CallTopView={CustomTopView}
-                supportedReactions={reactions}
-                // layout="spotlight"
-              />
-            </View>
-
-            <View style={styles.chatContainer}>{/* <ChatView channelId={id} /> */}</View>
+      <StreamCall call={call}>
+        <View style={styles.container}>
+          <View style={styles.videoContainer}>
+            {/* <CallContent
+              onHangupCallHandler={goToHomeScreen}
+              CallControls={CustomCallControls}
+              CallTopView={CustomTopView}
+              supportedReactions={reactions}
+              layout="grid"
+            /> */}
           </View>
-        </StreamCall>
-      )}
+
+          <View style={styles.chatContainer}>
+            <ChatView channelId={id} />
+          </View>
+        </View>
+      </StreamCall>
     </View>
   );
 };
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   chatContainer: {
-    flex: 0.5,
+    flex: WIDTH > HEIGHT ? 0.5 : 0.8,
     justifyContent: 'center',
     textAlign: 'center',
     backgroundColor: '#fff',

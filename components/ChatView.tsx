@@ -52,6 +52,7 @@ const ChatView = ({ channelId }: Props) => {
           <Chat client={chatClient}>
             <Channel channel={channel}>
               <MessageList />
+
               <MessageInput />
             </Channel>
           </Chat>

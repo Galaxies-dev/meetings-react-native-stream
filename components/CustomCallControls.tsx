@@ -10,6 +10,7 @@ import {
 } from '@stream-io/video-react-native-sdk';
 import React from 'react';
 import { View, StyleSheet, Button } from 'react-native';
+import Colors from '../constants/Colors';
 
 export const reactions: StreamReactionType[] = [
   {
@@ -58,7 +59,7 @@ const CustomCallControls = (props: CallControlProps) => {
       <ToggleCameraFaceButton onPressHandler={() => call?.camera.flip()} />
       <HangUpCallButton onHangupCallHandler={props.onHangupCallHandler} />
       <ReactionsButton supportedReactions={reactions} />
-      <Button onPress={onLike} title="Like" />
+      <Button onPress={onLike} title="Like!" color={Colors.secondary} />
     </View>
   );
 };
@@ -72,7 +73,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-
     backgroundColor: '#0333c17c',
     borderRadius: 6,
     borderColor: '#fff',

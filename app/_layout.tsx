@@ -27,7 +27,7 @@ const InitialLayout = () => {
       router.replace('/(inside)');
     } else if (!authState?.authenticated) {
       console.log('Redirecting to login');
-
+      client?.disconnectUser();
       // Redirect unauthenticated users to the login page
       router.replace('/');
     }
