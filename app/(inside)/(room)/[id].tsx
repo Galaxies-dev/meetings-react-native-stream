@@ -17,6 +17,7 @@ import CustomTopView from '../../../components/CustomTopView';
 import { reactions } from '../../../components/CustomCallControls';
 import { Ionicons } from '@expo/vector-icons';
 import CustomBottomSheet from '../../../components/CustomBottomSheet';
+import ChatView from '../../../components/ChatView';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
@@ -109,12 +110,17 @@ const Page = () => {
             supportedReactions={reactions}
             layout="grid"
           />
-        </View>
 
-        {/* <View style={styles.videoContainer}>
-          <View style={styles.chatContainer}><ChatView channelId={id} /></View>
-        </View> */}
-        <CustomBottomSheet channelId={id} />
+          {WIDTH > HEIGHT ? (
+            <View style={styles.videoContainer}>
+              <View style={styles.chatContainer}>
+                <ChatView channelId={id} />
+              </View>
+            </View>
+          ) : (
+            <CustomBottomSheet channelId={id} />
+          )}
+        </View>
       </StreamCall>
     </View>
   );
@@ -123,7 +129,7 @@ const Page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexDirection: WIDTH > HEIGHT ? 'row' : 'column',
+    flexDirection: WIDTH > HEIGHT ? 'row' : 'column',
   },
   videoContainer: {
     flex: 1,
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   chatContainer: {
-    flex: WIDTH > HEIGHT ? 0.5 : 0.8,
+    flex: 1,
     justifyContent: 'center',
     textAlign: 'center',
     backgroundColor: '#fff',
