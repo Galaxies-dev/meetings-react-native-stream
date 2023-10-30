@@ -24,6 +24,7 @@ const ChatView = ({ channelId }: Props) => {
     undefined
   );
 
+  // Connect to the channel with the same ID as the video call
   useEffect(() => {
     const connectToChannel = async () => {
       const user = { id: authState?.user_id! };
@@ -37,8 +38,8 @@ const ChatView = ({ channelId }: Props) => {
 
     connectToChannel();
 
+    // Cleanup
     return () => {
-      console.log('Disconnecting user from chat...');
       channel?.stopWatching();
       chatClient.disconnectUser();
     };

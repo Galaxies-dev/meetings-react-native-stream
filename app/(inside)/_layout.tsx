@@ -26,6 +26,7 @@ const Layout = () => {
           ),
         }}
       />
+
       <Stack.Screen name="(room)/[id]" options={{ title: 'Room' }} />
     </Stack>
   );

@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }: any) => {
     const loadToken = async () => {
       // Load token on startup
       const data = await SecureStore.getItemAsync(TOKEN_KEY);
-      console.log('stored data:', data);
 
       if (data) {
         const object = JSON.parse(data);
@@ -62,7 +61,6 @@ export const AuthProvider = ({ children }: any) => {
       });
 
       const json = await result.json();
-      console.log('🚀 ~ file: AuthContext.tsx:56 ~ login ~ json:', json);
 
       // Set our context state
       setAuthState({

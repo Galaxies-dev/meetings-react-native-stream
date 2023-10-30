@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   StyleSheet,
   Alert,
@@ -26,7 +25,6 @@ const Page = () => {
 
     try {
       const result = await onLogin!(email, password);
-      console.log('🚀 ~ file: index.tsx:28 ~ onSignInPress ~ result:', result);
     } catch (e) {
       Alert.alert('Error', 'Could not log in');
     } finally {
@@ -39,7 +37,6 @@ const Page = () => {
     setLoading(true);
     try {
       const result = await onRegister!(email, password);
-      console.log('🚀 ~ file: index.tsx:28 ~ onSignInPress ~ result:', result);
     } catch (e) {
       Alert.alert('Error', 'Could not log in');
     } finally {

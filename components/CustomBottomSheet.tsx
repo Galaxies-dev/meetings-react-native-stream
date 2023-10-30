@@ -1,6 +1,6 @@
 import { StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { forwardRef, useMemo } from 'react';
-import BottomSheet, { useBottomSheet, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import ChatView from './ChatView';
 import Colors from '../constants/Colors';
 export type Ref = BottomSheet;
@@ -9,6 +9,7 @@ interface Props {
   channelId: string;
 }
 
+// Custom Bottom Sheet to display the chat
 const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
   const snapPoints = useMemo(() => ['15%', '100%'], []);
 

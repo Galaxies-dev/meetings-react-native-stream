@@ -15,9 +15,8 @@ const InitialLayout = () => {
   const segments = useSegments();
   const router = useRouter();
 
+  // Navigate the user to the correct page based on their authentication state
   useEffect(() => {
-    console.log('INITIALIZED: ', initialized);
-
     if (!initialized) return;
 
     // Check if the path/url is in the (inside) group
@@ -25,32 +24,29 @@ const InitialLayout = () => {
 
     if (authState?.authenticated && !inAuthGroup) {
       // Redirect authenticated users to the list page
-      console.log('Redirecting to tabs');
       router.replace('/(inside)');
     } else if (!authState?.authenticated) {
-      console.log('Redirecting to login');
-      client?.disconnectUser();
       // Redirect unauthenticated users to the login page
+      client?.disconnectUser();
       router.replace('/');
     }
   }, [initialized, authState]);
 
+  // Initialize the StreamVideoClient when the user is authenticated
   useEffect(() => {
     if (authState?.authenticated && authState.token) {
-      console.log('INIT CLIENT: ', authState);
       const user: User = { id: authState.user_id! };
-      console.log('create client...');
 
       try {
         const client = new StreamVideoClient({ apiKey: STREAM_KEY!, user, token: authState.token });
         setClient(client);
-        console.log('Finished init client');
       } catch (e) {
         console.log('Error creating client: ', e);
       }
     }
   }, [authState]);
 
+  // Conditionally render the correct layout
   return (
     <>
       {!client && (

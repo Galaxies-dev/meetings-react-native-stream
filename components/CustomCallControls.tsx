@@ -39,6 +39,7 @@ export const reactions: StreamReactionType[] = [
   },
 ];
 
+// Custom View for the call controls and reactions
 const CustomCallControls = (props: CallControlProps) => {
   const call = useCall();
 

@@ -1,6 +1,7 @@
 import { useCallStateHooks } from '@stream-io/video-react-native-sdk';
 import { View, StyleSheet, Text } from 'react-native';
 
+// Custom View to display the number of participants in the call
 const CustomTopView = () => {
   const { useParticipants } = useCallStateHooks();
   const participants = useParticipants();

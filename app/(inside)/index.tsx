@@ -2,7 +2,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Image,
   Text,
   ImageBackground,
   TouchableOpacity,
@@ -16,28 +15,17 @@ const HEIGHT = Dimensions.get('window').height;
 
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { useStreamVideoClient } from '@stream-io/video-react-native-sdk';
 
 const Page = () => {
   const router = useRouter();
-  const client = useStreamVideoClient();
 
+  // Create random id and navigate to the room
   const onStartMeeting = async () => {
-    console.log('Start Meeting');
     const randomId = Math.floor(Math.random() * 1000000000).toString();
     router.push(`/(inside)/(room)/${randomId}`);
-    // console.log('🚀 ~ file: index.tsx:28 ~ onStartMeeting ~ randomId:', randomId);
-
-    // try {
-    //   const call = await client!.call('default', randomId);
-    //   console.log('Call created: ', call);
-    // } catch (e) {
-    //   console.log('Error creating call: ', e);
-    // }
-
-    // router.push(`/(inside)/(room)/${randomId}`);
   };
 
+  // Prompt user to enter a call id and navigate to the room
   const onJoinMeeting = () => {
     Alert.prompt(
       'Join',
@@ -61,11 +49,13 @@ const Page = () => {
           <Ionicons name="videocam-outline" size={24} />
           <Text style={styles.buttonText}>Start new Meeting</Text>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={onJoinMeeting} style={styles.button}>
           <Ionicons name="business-outline" size={24} />
           <Text style={styles.buttonText}>Join Meeting by ID</Text>
         </TouchableOpacity>
       </View>
+
       <View style={styles.divider}>
         <View style={{ flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: '#000' }} />
         <Text style={{ fontSize: 18 }}>or join public room</Text>
